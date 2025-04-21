@@ -1,0 +1,24 @@
+{
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.22.11"
+  },
+  "name": "api-automation",
+  "version": "1.0.0",
+  "description": "## Description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfrelis/sanbercode-api-automation-boilerplate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfrelis/sanbercode-api-automation-boilerplate/issues"
+  },
+  "homepage": "https://github.com/jfrelis/sanbercode-api-automation-boilerplate#readme"
+}

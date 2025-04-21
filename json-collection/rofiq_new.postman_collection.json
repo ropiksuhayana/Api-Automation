@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "c34170a5-759a-4785-aa45-da1616aa2f58",
+		"name": "API Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27393385",
+		"_collection_link": "https://crimson-crescent-590988.postman.co/workspace/Team-Workspace~88560848-8070-4a20-89b0-0a43e90a339f/collection/27393385-c34170a5-759a-4785-aa45-da1616aa2f58?action=share&source=collection_link&creator=27393385"
+	},
+	"item": [
+		{
+			"name": "API Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response time < 1100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Access token is not null\", function () {",
+							"    pm.expect(jsonData.accessToken).to.not.be.null;",
+							"});",
+							"",
+							"// Simpan token ke environment",
+							"pm.environment.set(\"token\", jsonData.accessToken);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate random email",
+							"const randomNumber = Math.floor(Math.random() * 100000);",
+							"const randomEmail = `testuser${randomNumber}@example.com`;",
+							"",
+							"// Set the email as an environment variable",
+							"pm.environment.set(\"email\", randomEmail);",
+							"",
+							"// Optional: Set default client name too",
+							"pm.environment.set(\"name\", \"Rofiq\");",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"clientName\": \"{{name}}\",\n   \"clientEmail\": \"{{email}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://simple-books-api.glitch.me/api-clients/"
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time < 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Response status is OK\", function () {",
+							"    pm.expect(jsonData.status).to.eql(\"OK\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://simple-books-api.glitch.me/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Single Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time < 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Book data is correct\", function () {",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"    pm.expect(jsonData.name).to.eql(\"The Russian\");",
+							"    pm.expect(jsonData.author).to.eql(\"James Patterson and James O. Born\");",
+							"    pm.expect(jsonData.isbn).to.eql(\"1780899475\");",
+							"    pm.expect(jsonData.type).to.eql(\"fiction\");",
+							"    pm.expect(jsonData.price).to.eql(12.98);",
+							"    pm.expect(jsonData['current-stock']).to.eql(12);",
+							"    pm.expect(jsonData.available).to.eql(true);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://simple-books-api.glitch.me/books/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response time < 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Order created is true\", function () {",
+							"    pm.expect(jsonData.created).to.eql(true);",
+							"});",
+							"",
+							"pm.test(\"Order ID is not null\", function () {",
+							"    pm.expect(jsonData.orderId).to.not.be.null;",
+							"});",
+							"",
+							"// Simpan orderId untuk digunakan di request berikutnya",
+							"pm.environment.set(\"orderID\", jsonData.orderId);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"bookId\": 1,\n  \"customerName\": \"Nini\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://simple-books-api.glitch.me/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Single Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time < 10000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(10000);",
+							"});",
+							"",
+							"pm.test(\"Order details are correct\", function () {",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"orderID\"));",
+							"    pm.expect(jsonData.bookId).to.eql(1);",
+							"    pm.expect(jsonData.customerName).to.eql(\"Nini\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "https://simple-books-api.glitch.me/orders/{{orderID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response time < 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "https://simple-books-api.glitch.me/orders/{{orderID}}"
+			},
+			"response": []
+		}
+	]
+}
