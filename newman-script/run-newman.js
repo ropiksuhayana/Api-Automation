@@ -2,7 +2,6 @@
 const newman = require("newman");
 
 newman.run({
-    // collection: "json-collection/rofiq.postman_collection.json",
     collection: require('../json-collection/rofiq_new.postman_collection.json'),
     environment: require('../json-env/rofiq-env.json'),
     reporters: ["cli", "htmlextra"],
